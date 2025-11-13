@@ -1,6 +1,6 @@
-import { Github, Linkedin, Mail, MapPin } from 'lucide-react';
+import { Github, Linkedin, Mail, MapPin, Download } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
+import resumePdf from '../../assets/Full Stack Developer- Babita.pdf';
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -13,6 +13,16 @@ const Home = () => {
   const github = import.meta.env.VITE_GITHUB_URL;
   const linkedin = import.meta.env.VITE_LINKEDIN_URL;
   const name = import.meta.env.VITE_NAME;
+  const resumeUrl = resumePdf
+  const handleResumeDownload = () => {
+    // Create a temporary link element
+    const link = document.createElement('a');
+    link.href = resumeUrl;
+    link.download = 'Babita_Awasthi_Resume.pdf'; // Customize filename
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
     <section
@@ -77,15 +87,26 @@ const Home = () => {
             </a>
           </div>
 
-          <button
-            onClick={() => {
-              const element = document.getElementById('contact');
-              element?.scrollIntoView({ behavior: 'smooth' });
-            }}
-            className="px-8 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-medium"
-          >
-            Get In Touch
-          </button>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <button
+              onClick={() => {
+                const element = document.getElementById('contact');
+                element?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="px-8 py-4 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-medium"
+            >
+              Get In Touch
+            </button>
+
+            <button
+              onClick={handleResumeDownload}
+              className="px-8 py-4 bg-white text-indigo-600 border-2 border-indigo-600 rounded-lg hover:bg-indigo-50 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl font-medium flex items-center gap-2"
+            >
+              <Download size={20} />
+              Download Resume
+            </button>
+          </div>
         </div>
       </div>
     </section>
