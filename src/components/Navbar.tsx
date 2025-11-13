@@ -1,13 +1,14 @@
-import { Link } from 'react-scroll';
-import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { Link } from "react-scroll";
+import { Menu, X } from "lucide-react";
+import { useState } from "react";
 
 const navItems = [
-  { id: 'home', label: 'Home' },
-  { id: 'about', label: 'About' },
-  { id: 'tech-stack', label: 'Tech Stack' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contact', label: 'Contact' },
+  { id: "home", label: "Home" },
+  { id: "about", label: "About" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "tech-stack", label: "Skills" },
+  { id: "contact", label: "Contact" },
 ];
 
 export default function Navbar() {
@@ -18,7 +19,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between md:justify-center h-16 relative">
           <div className="absolute left-10 top-3 md:left-0">
-            <span className="text-2xl font-bold text-indigo-600">Portfolio</span>
+            <span className="text-2xl font-bold text-indigo-600">
+              Portfolio
+            </span>
           </div>
 
           {/* Desktop Navigation */}

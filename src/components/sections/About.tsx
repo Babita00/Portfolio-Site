@@ -1,56 +1,97 @@
-import { motion } from 'framer-motion';
-import { Code2, Terminal } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { Award, BookOpen } from 'lucide-react';
 
-const skills = [
-  {
-    icon: <Code2 size={24} />,
-    title: 'Frontend Development',
-    description: 'Experienced in React, TypeScript,Next.js and modern CSS frameworks.'
-  },
-  {
-    icon: <Terminal size={24} />,
-    title: 'Backend Development',
-    description: 'Proficient in Node.js, Express, and database management.'
-  },
+const About = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
 
-];
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-export default function About() {
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="about" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">About Me</h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-          I'm a dedicated full-stack developer specializing in the MERN stack, passionate about building efficient and scalable web applications. With experience in both frontend and backend development, I transform ideas into robust, high-performance solutions that enhance user experiences.
-
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:w-3/4 mx-auto">
-  {skills.map((skill, index) => (
-    <motion.div
-      key={index}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.2 }}
-      viewport={{ once: true }}
-      className="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition-shadow w-full md:w-5/6 mx-auto"
+    <section
+      id="about"
+      ref={sectionRef}
+      className="py-20 bg-white"
     >
-      <div className="text-indigo-600 mb-4">{skill.icon}</div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">{skill.title}</h3>
-      <p className="text-gray-600">{skill.description}</p>
-    </motion.div>
-  ))}
-</div>
+      <div className="container mx-auto px-6">
+        <div
+          className={`transform transition-all duration-1000 ${
+            isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+          }`}
+        >
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4 text-center">
+            About Me
+          </h2>
+          <div className="h-1 w-20 bg-indigo-600 mx-auto mb-12"></div>
 
+          <div className="max-w-3xl mx-auto">
+                        <p className="text-lg text-slate-600 mb-6 leading-relaxed">
+              Full-stack developer with nearly 1 year of experience in web development using React, Next.js,
+              Node.js, and PostgreSQL. I specialize in building RESTful APIs, scalable database designs,
+              responsive UI, and secure authentication systems.
+            </p>
+
+            <p className="text-lg text-slate-600 mb-6 leading-relaxed font-medium">
+              <strong>Key Strengths:</strong>
+            </p>
+            <ul className="list-disc list-inside text-lg text-slate-600 mb-12 space-y-2">
+              <li>Full-stack development with React, Next.js, Node.js, and PostgreSQL</li>
+              <li>RESTful API design with 30+ endpoints and complex SQL optimization</li>
+              <li>Role-based access control, JWT authentication, and transaction management</li>
+            </ul>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="p-6 bg-slate-50 rounded-lg hover:shadow-lg transition-shadow duration-300">
+                <div className="flex items-center mb-4">
+                  <div className="p-3 bg-indigo-100 rounded-lg mr-4">
+                    <BookOpen className="text-indigo-600" size={24} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900">Education</h3>
+                </div>
+                <p className="text-slate-700 font-medium mb-1">
+                  Bachelors of Computer Engineering
+                </p>
+                <p className="text-slate-600 text-sm">
+                  Nepal College Of Information Technology
+                </p>
+                <p className="text-slate-500 text-sm">2021 - 2025</p>
+              </div>
+
+              <div className="p-6 bg-slate-50 rounded-lg hover:shadow-lg transition-shadow duration-300">
+                <div className="flex items-center mb-4">
+                  <div className="p-3 bg-indigo-100 rounded-lg mr-4">
+                    <Award className="text-indigo-600" size={24} />
+                  </div>
+                  <h3 className="text-xl font-semibold text-slate-900">Certifications</h3>
+                </div>
+                <p className="text-slate-700 font-medium mb-1">
+                  AWS Academy Cloud Foundations
+                </p>
+                <p className="text-slate-600 text-sm">
+                  AWS Academy Graduate
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
-}
+};
+
+export default About;
