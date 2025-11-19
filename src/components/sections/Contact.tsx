@@ -5,13 +5,19 @@ import XLogo from "../../assets/images/x-logo.png";
 const Contact = () => {
   const socialLinks = [
     { icon: Mail, label: "Email", url: "mailto:devbabit07@gmail.com" },
-    { icon: Linkedin, label: "LinkedIn", url: "https://www.linkedin.com/in/babita-asth/" },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      url: "https://www.linkedin.com/in/babita-asth/",
+    },
     { icon: Github, label: "GitHub", url: "https://github.com/Babita00" },
-  {
-    icon: () => <img src={XLogo} alt="X logo" className="w-5 h-5 object-contain" />,
-    label: "X",
-    url: "https://x.com/_imbabita07",
-  },
+    {
+      icon: () => (
+        <img src={XLogo} alt="X logo" className="w-5 h-5 object-contain" />
+      ),
+      label: "X",
+      url: "https://x.com/_imbabita07",
+    },
   ];
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -25,8 +31,6 @@ const Contact = () => {
     if (sectionRef.current) observer.observe(sectionRef.current);
     return () => observer.disconnect();
   }, []);
-
-  
 
   const baseButton =
     "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-all duration-300";
@@ -110,7 +114,7 @@ const Contact = () => {
 
       <footer className="mt-20 pt-8 border-t border-border">
         <p className="text-center text-muted-foreground">
-          © {new Date().getFullYear()} Your Name. All rights reserved.
+          © {new Date().getFullYear()} Babita Awasthi. All rights reserved.
         </p>
       </footer>
     </section>

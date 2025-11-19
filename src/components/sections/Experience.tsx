@@ -98,9 +98,7 @@ const Experience = () => {
 
                   {/* Content card */}
                   <div
-                    className={`ml-24 md:ml-0 md:w-[calc(50%-3rem)] ${
-                      index % 2 === 0 ? "md:text-right" : "md:text-left"
-                    }`}
+                    className="ml-24 md:ml-0 md:w-[calc(50%-3rem)] md:text-left" 
                   >
                     <div className="bg-card p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-border">
                       <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-600 text-sm rounded-full mb-3">
