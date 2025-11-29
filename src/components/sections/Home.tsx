@@ -1,6 +1,6 @@
 import { Github, Linkedin, Mail, MapPin, Download } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import resumePdf from '../../assets/Full Stack Developer- Babita.pdf';
+import resumePdf from '../../assets/FullStackDeveloper.pdf';
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
 
