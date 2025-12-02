@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Award, BookOpen } from 'lucide-react';
+import { Award } from 'lucide-react';
 
 const About = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -56,22 +56,7 @@ const About = () => {
             </ul>
 
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-6 bg-slate-50 rounded-lg hover:shadow-lg transition-shadow duration-300">
-                <div className="flex items-center mb-4">
-                  <div className="p-3 bg-indigo-100 rounded-lg mr-4">
-                    <BookOpen className="text-indigo-600" size={24} />
-                  </div>
-                  <h3 className="text-xl font-semibold text-slate-900">Education</h3>
-                </div>
-                <p className="text-slate-700 font-medium mb-1">
-                  Bachelors of Computer Engineering
-                </p>
-                <p className="text-slate-600 text-sm">
-                  Nepal College Of Information Technology
-                </p>
-                <p className="text-slate-500 text-sm">2021 - 2025</p>
-              </div>
-
+           
               <div className="p-6 bg-slate-50 rounded-lg hover:shadow-lg transition-shadow duration-300">
                 <div className="flex items-center mb-4">
                   <div className="p-3 bg-indigo-100 rounded-lg mr-4">
