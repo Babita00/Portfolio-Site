@@ -1,6 +1,6 @@
 import { Github, Linkedin, Mail, MapPin, Download } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import resumePdf from '../../assets/FullStackDeveloper.pdf';
+import resumePdf from '../../assets/FullStack Developer.pdf';
 const Home = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -18,7 +18,7 @@ const Home = () => {
     // Create a temporary link element
     const link = document.createElement('a');
     link.href = resumeUrl;
-    link.download = 'Babita_Awasthi_Resume.pdf'; // Customize filename
+    link.download = 'Full Stack Developer - Babita.pdf'; 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
