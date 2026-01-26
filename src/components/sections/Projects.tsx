@@ -24,6 +24,15 @@ const Projects = () => {
   }, []);
 
   const projects = [
+       {
+      title: "Jyotish",
+      description:
+        "A Next.js application using TailwindCSS with Supabase as the backend database.",
+      image: grahamantra,
+      technologies: ["Next.js", "TailwindCSS", "Supabase"],
+      link: "https://grahamantra.vercel.app/",
+      github: "https://github.com/Babita00/Jyotish",
+    },
     {
       title: "Online Flat Rental Platform",
       description:
@@ -41,15 +50,7 @@ const Projects = () => {
       githubFrontend: "#",
       githubBackend: "#",
     },
-    {
-      title: "Jyotish",
-      description:
-        "A Next.js application using TailwindCSS with Supabase as the backend database.",
-      image: grahamantra,
-      technologies: ["Next.js", "TailwindCSS", "Supabase"],
-      link: "https://grahamantra.vercel.app/",
-      github: "https://github.com/Babita00/Jyotish",
-    },
+ 
     {
       title: "Weather Dashboard",
       description: "Real-time weather tracking with OpenWeather API",
@@ -126,7 +127,7 @@ const Projects = () => {
                         className="flex items-center text-indigo-600 hover:text-indigo-700 transition-colors duration-300"
                       >
                         <ExternalLink size={18} className="mr-1" />
-                        <span className="text-sm font-medium">View Project</span>
+                        <span className="text-sm font-medium">Demo</span>
                       </a>
                     )}
                     {project.github && (

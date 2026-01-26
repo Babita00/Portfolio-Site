@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Code, Database, Cloud, GitBranch, Users } from 'lucide-react';
 
-const TechStacks = () => {
+const Skills = () => {
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -129,4 +129,4 @@ const TechStacks = () => {
   );
 };
 
-export default TechStacks;
+export default Skills;
