@@ -1,124 +1,120 @@
-import { useEffect, useRef, useState } from "react";
-import { Mail, Linkedin, Github } from "lucide-react";
-import XLogo from "../../assets/images/x-logo.png";
+import { ArrowUpRight, Check, Copy, Download, FileText, Github, Linkedin, Mail } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { profile } from '../../data/profile';
+import { Reveal } from '../ui/Reveal';
 
-const Contact = () => {
-  const socialLinks = [
-    { icon: Mail, label: "Email", url: "mailto:devbabit07@gmail.com" },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      url: "https://www.linkedin.com/in/babita-asth/",
-    },
-    { icon: Github, label: "GitHub", url: "https://github.com/Babita00" },
-    {
-      icon: () => (
-        <img src={XLogo} alt="X logo" className="w-5 h-5 object-contain" />
-      ),
-      label: "X",
-      url: "https://x.com/_imbabita07",
-    },
-  ];
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
+type CopyState = 'idle' | 'copied' | 'failed';
+
+const channels = [
+  { label: 'GitHub', handle: 'Babita00', href: profile.github, icon: Github },
+  { label: 'LinkedIn', handle: 'in/babita-asth', href: profile.linkedin, icon: Linkedin },
+] as const;
+
+export function Contact() {
+  const [copyState, setCopyState] = useState<CopyState>('idle');
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => entry.isIntersecting && setIsVisible(true),
-      { threshold: 0.2 }
-    );
+    if (copyState === 'idle') return;
+    const timeout = window.setTimeout(() => setCopyState('idle'), 2400);
+    return () => window.clearTimeout(timeout);
+  }, [copyState]);
 
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
-
-  const baseButton =
-    "inline-flex items-center justify-center gap-2 rounded-md font-medium transition-all duration-300";
-
-  const socialButton =
-    " text-gray-700 hover:bg-indigo-600 hover:text-white bg-gray-100   px-8 py-4 shadow-lg hover:-translate-y-0.5";
-
-  const heroButton =
-    "bg-white text-indigo-600 hover:bg-indigo-600 hover:text-white border border-indigo-600 px-8 py-4 hover:shadow-lg hover:-translate-y-0.5";
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopyState('copied');
+    } catch {
+      setCopyState('failed');
+    }
+  };
 
   return (
-    <section
-      id="contact"
-      ref={sectionRef}
-      className="py-20 md:py-32 bg-section-alt"
-    >
-      <div className="container mx-auto px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2
-            className={`text-4xl md:text-5xl font-bold mb-8 transition-all duration-700 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            Let's Work Together
-          </h2>
-          <p
-            className={`text-lg text-muted-foreground mb-12 transition-all duration-700 delay-200 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            I'm always open to discussing new projects, creative ideas, or
-            opportunities to be part of your visions.
-          </p>
+    <section id="contact" className="page-x py-24 sm:py-32" aria-labelledby="contact-title">
+      <Reveal className="border-t border-ink pt-6">
+        <p className="label">
+          <span className="text-ink">(05)</span> Contact
+        </p>
+        <h2 id="contact-title" className="mt-10 max-w-4xl font-serif text-5xl leading-[1] tracking-tight sm:text-7xl lg:text-8xl">
+          Have a product that needs building?
+        </h2>
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-ink-soft sm:text-lg">
+          I’m open to full stack roles and freelance projects. Email is the quickest way to reach me.
+        </p>
+      </Reveal>
 
-          {/* Social buttons */}
-          <div
-            className={`flex flex-wrap justify-center gap-4 mb-12 transition-all duration-700 delay-300 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
+      <Reveal delay={0.1} className="mt-12 grid gap-10 lg:grid-cols-12">
+        <div className="lg:col-span-7">
+          <p className="label">Email</p>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <a
+              href={`mailto:${profile.email}`}
+              className="group inline-flex items-center gap-3 break-all font-serif text-2xl text-ink transition-colors hover:text-accent sm:text-4xl"
+            >
+              <Mail size={28} className="hidden shrink-0 sm:block" aria-hidden="true" />
+              {profile.email}
+            </a>
+            <button
+              type="button"
+              onClick={copyEmail}
+              className="inline-flex items-center gap-1.5 rounded-md border border-line-strong px-3 py-2 text-xs font-medium text-ink-soft transition-colors hover:border-ink hover:text-ink"
+            >
+              {copyState === 'copied' ? <Check size={14} aria-hidden="true" /> : <Copy size={14} aria-hidden="true" />}
+              {copyState === 'copied' ? 'Copied' : 'Copy'}
+            </button>
+            <span role="status" aria-live="polite" className="text-xs text-ink-muted">
+              {copyState === 'copied' && <span className="sr-only">Email address copied to clipboard</span>}
+              {copyState === 'failed' && 'Copy failed. Select the address instead.'}
+            </span>
+          </div>
+          <a
+            href={`mailto:${profile.email}?subject=${encodeURIComponent('Hello from your portfolio')}`}
+            className="mt-8 inline-flex items-center gap-2 rounded-md bg-accent px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
           >
-            {socialLinks.map(({ icon: Icon, label, url }, i) => (
+            Write me an email
+            <ArrowUpRight size={16} aria-hidden="true" />
+          </a>
+        </div>
+
+        <ul className="divide-y divide-line border-y border-line lg:col-span-5">
+          {channels.map(({ label, handle, href, icon: Icon }) => (
+            <li key={label}>
               <a
-                key={i}
-                href={url}
+                href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={label}
-                className={`${baseButton} ${socialButton}`}
+                className="group flex items-center justify-between gap-4 py-5 transition-colors hover:text-accent"
               >
-                <Icon size={20} />
-                {label}
+                <span className="flex items-center gap-3">
+                  <Icon size={18} aria-hidden="true" />
+                  <span className="font-medium">{label}</span>
+                </span>
+                <span className="flex items-center gap-2 font-mono text-xs text-ink-muted group-hover:text-accent">
+                  {handle}
+                  <ArrowUpRight size={14} className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" aria-hidden="true" />
+                </span>
+                <span className="sr-only">(opens in a new tab)</span>
               </a>
-            ))}
-          </div>
-
-          {/* Hero email button (reverse color scheme) */}
-          <div
-            className={`transition-all duration-700 delay-500 ${
-              isVisible
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 translate-y-10"
-            }`}
-          >
-            <button
-              onClick={() =>
-                (window.location.href = "mailto:your.email@example.com")
-              }
-              className={`${baseButton} ${heroButton}`}
+            </li>
+          ))}
+          <li>
+            <a
+              href={profile.cv.href}
+              download={profile.cv.fileName}
+              className="group flex items-center justify-between gap-4 py-5 transition-colors hover:text-accent"
             >
-              Send me an email
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <footer className="mt-20 pt-8 border-t border-border">
-        <p className="text-center text-muted-foreground">
-          © {new Date().getFullYear()} Babita Awasthi. All rights reserved.
-        </p>
-      </footer>
+              <span className="flex items-center gap-3">
+                <FileText size={18} aria-hidden="true" />
+                <span className="font-medium">CV</span>
+              </span>
+              <span className="flex items-center gap-2 font-mono text-xs text-ink-muted group-hover:text-accent">
+                PDF
+                <Download size={14} className="transition-transform group-hover:translate-y-0.5" aria-hidden="true" />
+              </span>
+              <span className="sr-only">(download)</span>
+            </a>
+          </li>
+        </ul>
+      </Reveal>
     </section>
   );
-};
-
-export default Contact;
+}

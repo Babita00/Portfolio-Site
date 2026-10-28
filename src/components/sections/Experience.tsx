@@ -1,150 +1,116 @@
-import { Briefcase, GraduationCap } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { education, experience } from '../../data/experience';
+import { projects } from '../../data/projects';
+import { Reveal } from '../ui/Reveal';
+import { SectionHeading } from '../ui/SectionHeading';
+import { SiteLinkItem } from '../ui/SiteLinkItem';
 
-const experiences = [
-  {
-    company: "Data Construct",
-    icon: Briefcase,
-    roles: [
-      {
-        title: "Fullstack Developer Intern",
-        period: "Feb 2024 – Apr 2024",
-        points: [
-          "Single-handedly built a full-stack cricket academy management platform using Next.js 14, Node.js, Express, PostgreSQL, TypeScript, and Tailwind CSS — from database design to responsive UI.",
-          "Designed 30+ REST API endpoints with normalized PostgreSQL schema, proper indexing, RBAC, JWT authentication, and complex transactional SQL queries.",
-          "Engineered a concurrency-safe booking system with real-time slot generation, conflict detection, staff/equipment availability tracking, and dynamic pricing.",
-          "Built reusable admin module with React Hook Form + Zod validation, RTK Query caching, and component library used across 4 core modules.",
-          "Developed mobile-first responsive dashboard featuring dynamic tables, modal workflows, tabbed navigation, and role-based UI rendering.",
-        ],
-      },
-      {
-        title: "Junior Fullstack Developer",
-        period: "May 2024 – Present",
-        points: [
-          "Developing a multi-tenant education platform connecting 50+ institutions with 3-tier RBAC and 8+ modules (Grants, Events, Course Catalog, Recruitment) using React + TypeScript.",
-          "Implemented advanced search & filtering system with debounced inputs, dynamic query building, persistent state, and 20+ React Query-powered endpoints for real-time sync.",
-          "Led performance optimization using incremental rendering and memoization across major modules.",
-          "Designed reusable data visualization layer with TanStack Table (server-side pagination, sorting, column management) and 20+ components — reducing dev time by 40%.",
-          "Created consistent, responsive admin dashboard system with dynamic data tables, modals, and intuitive tabbed navigation across all modules.",
-        ],
-      },
-    ],
-  },
-];
+const independentProjects = projects.filter((project) => project.context === 'Independent build');
 
-const education = {
-  icon: GraduationCap,
-  degree: "Bachelor of Computer Engineering",
-  school: "Pokhara University",
-  period: "2021 – 2025",
-  description: "Graduated with honors • Specialized in Software Engineering • Led multiple hackathons and delivered production-grade projects",
-};
-
-const container = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
-export default function Experience() {
+export function Experience() {
   return (
-    <section id="experience" className="py-20 md:py-32 bg-background">
-      <div className="container mx-auto px-4 max-w-4xl">
-        {/* Section Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Experience</h2>
-          <div className="h-1 w-24 bg-indigo-600 mx-auto rounded-full"></div>
-        </motion.div>
+    <section id="experience" className="page-x py-24 sm:py-32" aria-labelledby="experience-title">
+      <SectionHeading id="experience-title" index="03" label="Experience" title="Where the work happened." />
 
-        {/* Company Header + Roles */}
-        <motion.div variants={container} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-          {experiences.map((exp) => (
-            <div key={exp.company} className="mb-16">
-              {/* Company Name + Icon */}
-              <motion.div variants={item} className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center shadow-lg">
-                  <exp.icon className="w-6 h-6 text-white" />
-                </div>
-                <h3 className="text-2xl md:text-3xl font-bold">{exp.company}</h3>
-              </motion.div>
+      <ol className="mt-14">
+        {experience.map((entry) => (
+          <li key={entry.organization}>
+            <Reveal className="grid gap-6 border-t border-line py-10 lg:grid-cols-12 lg:gap-8">
+              <div className="lg:col-span-3">
+                <p className="font-mono text-xs text-ink-muted">{entry.period}</p>
+                <h3 className="mt-2 text-xl font-semibold">{entry.organization}</h3>
+                <p className="mt-1 text-sm text-ink-muted">{entry.location}</p>
+              </div>
 
-              {/* Role Cards – Perfectly Left-Aligned */}
-              <div className="space-y-10 ml-16">
-                {exp.roles.map((role, idx) => (
-                  <motion.div
-                    key={idx}
-                    variants={item}
-                    className="bg-card border border-border/60 rounded-2xl p-7 shadow-md hover:shadow-xl transition-all duration-300 
-                               hover:-translate-y-1 hover:border-indigo-500/30"
-                  >
-                    {/* Title + Period Badge */}
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-5">
-                      <h4 className="text-xl md:text-2xl font-bold text-foreground">{role.title}</h4>
-                      <span className="inline-block px-5 py-2 bg-indigo-600 text-white font-medium text-sm rounded-full shadow-md">
-                        {role.period}
-                      </span>
+              <div className="lg:col-span-9">
+                <p className="flex flex-wrap items-center gap-2 text-sm font-medium">
+                  {entry.progression.map((title, index) => (
+                    <span key={title} className="flex items-center gap-2">
+                      {index > 0 && <ArrowRight size={14} className="text-accent" aria-label="then" />}
+                      <span className={index === entry.progression.length - 1 ? 'text-ink' : 'text-ink-muted'}>{title}</span>
+                    </span>
+                  ))}
+                </p>
+                <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">{entry.summary}</p>
+
+                <div className="mt-8 grid gap-8 md:grid-cols-2">
+                  {entry.projects.map((project) => (
+                    <div key={project.slug} className={project.points.length === 1 ? 'md:col-span-2' : undefined}>
+                      <Link to={`/work/${project.slug}`} className="group inline-flex items-center gap-2 font-medium transition-colors hover:text-accent">
+                        {project.name}
+                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                      </Link>
+                      <ul className="mt-3 space-y-2.5 text-[0.9375rem] leading-snug text-ink-soft">
+                        {project.points.map((point) => (
+                          <li key={point} className="flex gap-3">
+                            <span className="mt-[0.5em] h-px w-3 shrink-0 bg-ink-faint" aria-hidden="true" />
+                            {point}
+                          </li>
+                        ))}
+                      </ul>
                     </div>
+                  ))}
+                </div>
 
-                    {/* Bullet Points */}
-                    <ul className="space-y-4">
-                      {role.points.map((point, i) => (
-                        <motion.li
-                          key={i}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.08 }}
-                          className="flex gap-4 text-muted-foreground leading-relaxed"
-                        >
-                          <span className="text-indigo-600 mt-1.5 text-lg">▹</span>
-                          <span>{point}</span>
-                        </motion.li>
+                {entry.review && (
+                  <div className="mt-10 rounded-lg border border-line bg-paper-card p-5 sm:p-6">
+                    <h4 className="font-medium">{entry.review.title}</h4>
+                    <p className="mt-1.5 text-[0.9375rem] leading-snug text-ink-soft">{entry.review.description}</p>
+                    <ul className="mt-5 grid gap-5 md:grid-cols-2">
+                      {entry.review.systems.map((system) => (
+                        <li key={system.site.href} className="border-t border-line pt-4">
+                          <p className="font-medium">{system.name}</p>
+                          <p className="mt-1 text-sm text-ink-muted">{system.client}</p>
+                          <div className="mt-2">
+                            <SiteLinkItem site={system.site} />
+                          </div>
+                        </li>
                       ))}
                     </ul>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Education */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mt-20"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-12">Education</h2>
-          <div className="max-w-3xl mx-auto">
-            <div className="bg-card border border-border/60 rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300">
-              <div className="flex items-start gap-6">
-                <div className="w-14 h-14 rounded-full bg-indigo-600 flex items-center justify-center shadow-lg flex-shrink-0">
-                  <education.icon className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-                    <h3 className="text-2xl font-bold">{education.degree}</h3>
-                    <span className="px-5 py-2 bg-indigo-600 text-white font-medium text-sm rounded-full">
-                      {education.period}
-                    </span>
                   </div>
-                  <p className="text-xl font-semibold text-foreground mb-2">{education.school}</p>
-                  <p className="text-muted-foreground leading-relaxed">{education.description}</p>
-                </div>
+                )}
               </div>
+            </Reveal>
+          </li>
+        ))}
+
+        <li>
+          <Reveal className="grid gap-6 border-t border-line py-10 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-3">
+              <p className="font-mono text-xs text-ink-muted">Ongoing</p>
+              <h3 className="mt-2 text-xl font-semibold">Independent work</h3>
+              <p className="mt-1 text-sm text-ink-muted">Solo builds, end to end</p>
             </div>
-          </div>
-        </motion.div>
-      </div>
+            <ul className="grid gap-4 sm:grid-cols-3 lg:col-span-9">
+              {independentProjects.map((project) => (
+                <li key={project.slug}>
+                  <Link
+                    to={`/work/${project.slug}`}
+                    className="group block h-full rounded-md border border-line p-4 transition-colors hover:border-ink"
+                  >
+                    <p className="font-medium group-hover:text-accent">{project.title}</p>
+                    <p className="mt-1.5 text-sm leading-snug text-ink-muted">{project.category}</p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </li>
+
+        <li>
+          <Reveal className="grid gap-6 border-y border-line py-10 lg:grid-cols-12 lg:gap-8">
+            <div className="lg:col-span-3">
+              <p className="font-mono text-xs text-ink-muted">{education.period}</p>
+              <h3 className="mt-2 text-xl font-semibold">Education</h3>
+            </div>
+            <div className="lg:col-span-9">
+              <p className="font-medium">{education.degree}</p>
+              <p className="mt-1 text-ink-soft">{education.school}</p>
+            </div>
+          </Reveal>
+        </li>
+      </ol>
     </section>
   );
 }

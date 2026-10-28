@@ -1,23 +1,28 @@
-import Navbar from './components/Navbar';
-import Home from './components/sections/Home';
-import About from './components/sections/About';
-import Projects from './components/sections/Projects';
-import Contact from './components/sections/Contact';
-import Skills from './components/sections/Skills';
-import Experience from './components/sections/Experience';
+import { MotionConfig } from 'framer-motion';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Footer } from './components/layout/Footer';
+import { Navbar } from './components/layout/Navbar';
+import { ScrollManager } from './components/layout/ScrollManager';
+import { CaseStudyPage } from './pages/CaseStudyPage';
+import { HomePage } from './pages/HomePage';
+import { NotFoundPage } from './pages/NotFoundPage';
+
 function App() {
   return (
-    <div className="relative">
-      <Navbar />
-      <main>
-        <Home />
-        <About />
-        <Experience/>
-         <Projects />
-        <Skills/>
-        <Contact />
-      </main>
-    </div>
+    <BrowserRouter>
+      <MotionConfig reducedMotion="user">
+        <ScrollManager />
+        <Navbar />
+        <main id="main" tabIndex={-1} className="outline-none focus-visible:ring-0">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/work/:slug" element={<CaseStudyPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </MotionConfig>
+    </BrowserRouter>
   );
 }
 
